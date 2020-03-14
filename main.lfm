@@ -680,10 +680,12 @@ object MainForm: TMainForm
       Caption = 'File'
       object miNew: TMenuItem
         Caption = 'New'
+        ShortCut = 16462
         OnClick = miNewClick
       end
       object miOpen: TMenuItem
         Caption = 'Open'
+        ShortCut = 16463
         OnClick = miOpenClick
       end
       object miClose: TMenuItem
@@ -697,6 +699,7 @@ object MainForm: TMainForm
       object miSave: TMenuItem
         Caption = 'Save'
         Enabled = False
+        ShortCut = 16467
         OnClick = miSaveClick
       end
       object miSaveAs: TMenuItem
@@ -753,26 +756,31 @@ object MainForm: TMainForm
       object miFind: TMenuItem
         Caption = 'Find...'
         Enabled = False
+        ShortCut = 16454
         OnClick = miFindClick
       end
       object miFindNext: TMenuItem
         Caption = 'Find Next'
         Enabled = False
+        ShortCut = 114
         OnClick = miFindNextClick
       end
       object miFindPrev: TMenuItem
         Caption = 'Find Prev'
         Enabled = False
+        ShortCut = 115
         OnClick = miFindPrevClick
       end
       object miReplace: TMenuItem
         Caption = 'Replace...'
         Enabled = False
+        ShortCut = 16456
         OnClick = miReplaceClick
       end
       object miGoTo: TMenuItem
         Caption = 'Go To...'
         Enabled = False
+        ShortCut = 16455
         OnClick = miGoToClick
       end
       object SEP5: TMenuItem
@@ -781,6 +789,7 @@ object MainForm: TMainForm
       object miSelectAll: TMenuItem
         Caption = 'Select All'
         Enabled = False
+        ShortCut = 16449
         OnClick = miSelectAllClick
       end
     end
@@ -789,11 +798,13 @@ object MainForm: TMainForm
       object miCompile: TMenuItem
         Caption = 'Compile'
         Enabled = False
+        ShortCut = 116
         OnClick = miCompileClick
       end
       object miCompileRun: TMenuItem
         Caption = 'Compile/Run'
         Enabled = False
+        ShortCut = 117
         OnClick = miCompileRunClick
       end
       object SEP6: TMenuItem
@@ -824,6 +835,7 @@ object MainForm: TMainForm
       Caption = 'Help'
       object miLangGuide: TMenuItem
         Caption = 'Language Guide'
+        ShortCut = 112
         OnClick = miLangGuideClick
       end
       object SEP7: TMenuItem
