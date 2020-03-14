@@ -902,6 +902,9 @@ object MainForm: TMainForm
     top = 104
   end
   object SaveDialog: TSaveDialog
+    Title = 'Save As...'
+    DefaultExt = '.pwn'
+    Filter = 'Pawn Script (*.pwn; *.pawn; *.p)|*.pwn; *.pawn; *.p|Pawn Include (*.inc)|*.inc|Custom (*.*)|*.*'
     left = 256
     top = 104
   end

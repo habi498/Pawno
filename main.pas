@@ -379,7 +379,11 @@ end;
 
 procedure TMainForm.miSaveAsClick(Sender: TObject);
 begin
-  SaveDialog.FileName := FileName;
+  if FileName = '' then
+    SaveDialog.FileName := 'Untitled'
+  else
+    SaveDialog.FileName := FileName;
+
   if SaveDialog.Execute then begin
     FileName := SaveDialog.FileName;
     SynEdit.Lines.SaveToFile(FileName);
@@ -391,7 +395,7 @@ end;
 procedure TMainForm.miSaveClick(Sender: TObject);
 begin
   if FileName = '' then begin
-    SaveDialog.FileName := 'Untitled.pwn';
+    SaveDialog.FileName := 'Untitled';
     if SaveDialog.Execute then begin
       FileName := SaveDialog.FileName;
       SynEdit.Lines.SaveToFile(FileName);
