@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 245
+  Left = 1219
   Height = 478
-  Top = 108
+  Top = 110
   Width = 751
   Caption = 'Pawno'
   ClientHeight = 458
@@ -841,10 +841,12 @@ object MainForm: TMainForm
     object popUndo: TMenuItem
       Caption = 'Undo'
       Enabled = False
+      OnClick = miUndoClick
     end
     object popRedo: TMenuItem
       Caption = 'Redo'
       Enabled = False
+      OnClick = miRedoClick
     end
     object SEP8: TMenuItem
       Caption = '-'
@@ -852,18 +854,22 @@ object MainForm: TMainForm
     object popCut: TMenuItem
       Caption = 'Cut'
       Enabled = False
+      OnClick = miCutClick
     end
     object popCopy: TMenuItem
       Caption = 'Copy'
       Enabled = False
+      OnClick = miCopyClick
     end
     object popPaste: TMenuItem
       Caption = 'Paste'
       Enabled = False
+      OnClick = miPasteClick
     end
     object popDelete: TMenuItem
       Caption = 'Delete'
       Enabled = False
+      OnClick = miDeleteClick
     end
     object SEP9: TMenuItem
       Caption = '-'
@@ -871,6 +877,7 @@ object MainForm: TMainForm
     object popSelectAll: TMenuItem
       Caption = 'Select All'
       Enabled = False
+      OnClick = miSelectAllClick
     end
   end
   object FontDialog: TFontDialog

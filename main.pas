@@ -162,6 +162,15 @@ begin
   miCompile.Enabled := Enable;
   miCompileRun.Enabled := Enable;
 
+  // EditPopupMenu
+  popUndo.Enabled := Enable;
+  popRedo.Enabled := Enable;
+  popCut.Enabled := Enable;
+  popCopy.Enabled := Enable;
+  popPaste.Enabled := Enable;
+  popDelete.Enabled := Enable;
+  popSelectAll.Enabled := Enable;
+
   SynEdit.Enabled := Enable;
 end;
 

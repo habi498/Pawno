@@ -4,7 +4,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
-      <SessionStorage Value="InProjectDir"/>
+      <SessionStorage Value="None"/>
       <MainUnit Value="0"/>
       <Title Value="Pawno"/>
       <Scaled Value="True"/>
