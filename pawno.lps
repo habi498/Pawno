@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="5">
+      <Unit0>
+        <Filename Value="pawno.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="22"/>
+        <UsageCount Value="93"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="110"/>
+        <CursorPos X="3" Y="135"/>
+        <UsageCount Value="93"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="pawnhighlighter.pp"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="40"/>
+        <CursorPos X="48" Y="48"/>
+        <UsageCount Value="19"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="D:\Programok\Lazarus\components\synedit\syneditstrconst.pp"/>
+        <UnitName Value="SynEditStrConst"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="286"/>
+        <CursorPos X="5" Y="286"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="D:\Programok\Lazarus\components\synedit\synedithighlighter.pp"/>
+        <UnitName Value="SynEditHighlighter"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1559"/>
+        <CursorPos X="31" Y="1553"/>
+        <UsageCount Value="11"/>
+      </Unit4>
+    </Units>
+    <JumpHistory Count="27" HistoryIndex="26">
+      <Position1>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="68" Column="37" TopLine="39"/>
+      </Position1>
+      <Position2>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1415" Column="36" TopLine="1402"/>
+      </Position2>
+      <Position3>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1370" Column="43" TopLine="1337"/>
+      </Position3>
+      <Position4>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="2"/>
+      </Position4>
+      <Position5>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="921" Column="22" TopLine="903"/>
+      </Position5>
+      <Position6>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1299" Column="21" TopLine="1281"/>
+      </Position6>
+      <Position7>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1296" Column="27" TopLine="1278"/>
+      </Position7>
+      <Position8>
+        <Filename Value="main.pas"/>
+        <Caret Line="140" Column="52" TopLine="113"/>
+      </Position8>
+      <Position9>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="575" Column="39" TopLine="558"/>
+      </Position9>
+      <Position10>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="110" Column="24" TopLine="94"/>
+      </Position10>
+      <Position11>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="577" Column="43" TopLine="556"/>
+      </Position11>
+      <Position12>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="87" Column="58" TopLine="82"/>
+      </Position12>
+      <Position13>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="98" Column="24" TopLine="82"/>
+      </Position13>
+      <Position14>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="563" Column="39" TopLine="534"/>
+      </Position14>
+      <Position15>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="718" Column="35" TopLine="703"/>
+      </Position15>
+      <Position16>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="99" Column="29" TopLine="82"/>
+      </Position16>
+      <Position17>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="719" Column="19" TopLine="702"/>
+      </Position17>
+      <Position18>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="11" Column="78"/>
+      </Position18>
+      <Position19>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="13" Column="66"/>
+      </Position19>
+      <Position20>
+        <Filename Value="main.pas"/>
+        <Caret Line="105" Column="52" TopLine="87"/>
+      </Position20>
+      <Position21>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="23" Column="55"/>
+      </Position21>
+      <Position22>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1666" TopLine="1631"/>
+      </Position22>
+      <Position23>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1655" Column="27" TopLine="1629"/>
+      </Position23>
+      <Position24>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1436" Column="21" TopLine="1418"/>
+      </Position24>
+      <Position25>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1526" Column="21" TopLine="1508"/>
+      </Position25>
+      <Position26>
+        <Filename Value="pawnhighlighter.pp"/>
+        <Caret Line="1662" Column="43" TopLine="1631"/>
+      </Position26>
+      <Position27>
+        <Filename Value="main.pas"/>
+        <Caret Line="135" Column="3" TopLine="110"/>
+      </Position27>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
