@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="93"/>
+        <UsageCount Value="96"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
@@ -18,19 +18,20 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="110"/>
-        <CursorPos X="3" Y="135"/>
-        <UsageCount Value="93"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="270"/>
+        <CursorPos X="5" Y="279"/>
+        <FoldState Value=" T3jb045 pj0jG0E31G piglJ0M6 T1sT09T"/>
+        <UsageCount Value="96"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="pawnhighlighter.pp"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="40"/>
         <CursorPos X="48" Y="48"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
@@ -50,7 +51,7 @@
         <UsageCount Value="11"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="27" HistoryIndex="26">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="pawnhighlighter.pp"/>
         <Caret Line="68" Column="37" TopLine="39"/>
@@ -159,6 +160,18 @@
         <Filename Value="main.pas"/>
         <Caret Line="135" Column="3" TopLine="110"/>
       </Position27>
+      <Position28>
+        <Filename Value="main.pas"/>
+        <Caret Line="281" Column="31" TopLine="267"/>
+      </Position28>
+      <Position29>
+        <Filename Value="main.pas"/>
+        <Caret Line="286" Column="20" TopLine="264"/>
+      </Position29>
+      <Position30>
+        <Filename Value="main.pas"/>
+        <Caret Line="284" Column="8" TopLine="262"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

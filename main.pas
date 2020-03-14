@@ -270,17 +270,23 @@ begin
   lbCompiler.Visible := True;
   BottomSplitter.Visible := True;
 
+  lbCompiler.Clear;
+
   try
     p := TProcess.Create(nil);
     p.Executable := 'pawncc';
-    p.Parameters.Add(FileName);
+    p.Parameters.Add('"'+ FileName +'"');
     p.Parameters.Add('-;+ -(+');
-    p.Options := p.Options + [poWaitOnExit];
+    p.Options := p.Options + [poWaitOnExit, poUsePipes, poNoConsole];
     p.Execute;
 
     sl := TStringList.Create;
-    sl.LoadFromStream(p.Output);
 
+    sl.LoadFromStream(p.Stderr);
+    for i := 0 to pred(sl.Count) do
+        lbCompiler.AddItem(sl[i], nil);
+
+    sl.LoadFromStream(p.Output);
     for i := 0 to pred(sl.Count) do
         lbCompiler.AddItem(sl[i], nil);
 
