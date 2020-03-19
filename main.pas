@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls,
-  ExtCtrls, ComCtrls, SynEdit, lclintf, Registry, ShlObj, Process, pawnhighlighter;
+  ExtCtrls, ComCtrls, SynEdit, lclintf, Registry, ShlObj, Process, pawnhighlighter,
+  FileUtil, runoptions, LazFileUtils;
 
 type
 
@@ -258,14 +259,39 @@ end;
 
 procedure TMainForm.miRunOptionsClick(Sender: TObject);
 begin
-  // TODO
+  RunOptionsForm.ShowModal;
 end;
 
 procedure TMainForm.miCompileRunClick(Sender: TObject);
+var
+  p: TProcess;
+  s, d: String;
 begin
   miCompileClick(Self);
 
-  // TODO: Run samp-server.exe after
+  s := ExtractFileNameWithoutExt(FileName);
+  if not FileExists(s + '.amx') then Exit;
+
+  if RunOptionsForm.CopyToStr <> '' then
+  begin
+    d := ExtractFileNameWithoutExt(ExtractFileName(FileName));
+    CopyFile(s +'.amx', RunOptionsForm.CopyToStr +'\'+ d +'.amx');
+  end;
+
+  if RunOptionsForm.ExecuteThisStr <> '' then
+  begin
+    p := TProcess.Create(nil);
+    try
+      p.Executable := RunOptionsForm.ExecuteThisStr;
+
+      if RunOptionsForm.ParametersStr <> '' then
+        p.Parameters.Add(RunOptionsForm.ParametersStr);
+
+      p.Execute;
+    finally
+      p.Free;
+    end;
+  end;
 end;
 
 procedure TMainForm.miCompileClick(Sender: TObject);
