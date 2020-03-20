@@ -908,4 +908,10 @@ object MainForm: TMainForm
     left = 256
     top = 104
   end
+  object FindDialog: TFindDialog
+    Title = 'Find...'
+    OnFind = miFindNextClick
+    left = 176
+    top = 176
+  end
 end

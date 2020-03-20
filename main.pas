@@ -7,13 +7,14 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls,
   ExtCtrls, ComCtrls, SynEdit, lclintf, Registry, ShlObj, Process, pawnhighlighter,
-  FileUtil, runoptions, LazFileUtils;
+  FileUtil, runoptions, LazFileUtils, StrUtils, SynEditTypes;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
+    FindDialog: TFindDialog;
     FontDialog: TFontDialog;
     lbFunction: TListBox;
     lbCompiler: TListBox;
@@ -354,18 +355,48 @@ begin
 end;
 
 procedure TMainForm.miFindPrevClick(Sender: TObject);
+var
+  o: TSynSearchOptions;
 begin
-  // TODO
+  if FindDialog.FindText = '' then Exit;
+
+  o := [];
+  if frWholeWord in FindDialog.Options then
+    o := o + [ssoWholeWord];
+  if frMatchCase in FindDialog.Options then
+    o := o + [ssoMatchCase];
+  if frEntireScope in FindDialog.Options then
+    o := o + [ssoEntireScope];
+  if frDown in FindDialog.Options then
+    o := o + [ssoBackwards];
+
+  SynEdit.SearchReplace(FindDialog.FindText, '', o);
 end;
 
 procedure TMainForm.miFindNextClick(Sender: TObject);
+var
+  o: TSynSearchOptions;
 begin
-  // TODO
+  if FindDialog.FindText = '' then Exit;
+
+  FindDialog.CloseDialog;
+
+  o := [];
+  if frWholeWord in FindDialog.Options then
+    o := o + [ssoWholeWord];
+  if frMatchCase in FindDialog.Options then
+    o := o + [ssoMatchCase];
+  if frEntireScope in FindDialog.Options then
+    o := o + [ssoEntireScope];
+  //if frDown in FindDialog.Options then
+    //o := o - [ssoBackwards];
+
+  SynEdit.SearchReplace(FindDialog.FindText, '', o);
 end;
 
 procedure TMainForm.miFindClick(Sender: TObject);
 begin
-  // TODO
+  FindDialog.Execute;
 end;
 
 procedure TMainForm.miDeleteClick(Sender: TObject);
