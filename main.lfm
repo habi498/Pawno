@@ -914,4 +914,12 @@ object MainForm: TMainForm
     left = 176
     top = 176
   end
+  object ReplaceDialog: TReplaceDialog
+    Title = 'Replace...'
+    Options = [frDown, frReplace, frHidePromptOnReplace]
+    OnFind = miFindNextClick
+    OnReplace = ReplaceDialogReplace
+    left = 256
+    top = 176
+  end
 end

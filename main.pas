@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls,
   ExtCtrls, ComCtrls, SynEdit, lclintf, Registry, ShlObj, Process, pawnhighlighter,
-  FileUtil, runoptions, LazFileUtils, StrUtils, SynEditTypes;
+  FileUtil, runoptions, LazFileUtils, SynEditTypes;
 
 type
 
@@ -24,6 +24,7 @@ type
     miOpen: TMenuItem;
     miClose: TMenuItem;
     OpenDialog: TOpenDialog;
+    ReplaceDialog: TReplaceDialog;
     SaveDialog: TSaveDialog;
     SEP1: TMenuItem; // seperator
     miSave: TMenuItem;
@@ -103,10 +104,13 @@ type
     procedure miSelectAllClick(Sender: TObject);
     procedure miShowFuncListClick(Sender: TObject);
     procedure miUndoClick(Sender: TObject);
+    procedure ReplaceDialogReplace(Sender: TObject);
     procedure SynEditChange(Sender: TObject);
-    procedure SynEditStatusChange(Sender: TObject; Changes: TSynStatusChanges);
+    procedure SynEditStatusChange(Sender: TObject; {%H-}Changes: TSynStatusChanges);
   private
     FileName: String;
+    ReplacePos: TPoint;
+    Replacing: Boolean;
     procedure SetTitle(Title: String);
     procedure InitHighlighter;
     procedure SetControls(Enable: Boolean);
@@ -349,54 +353,93 @@ begin
   end;
 end;
 
+procedure TMainForm.ReplaceDialogReplace(Sender: TObject);
+var
+  o: TSynSearchOptions;
+begin
+  if ReplaceDialog.ReplaceText = SynEdit.SelText then Exit;
+
+  o := [];
+  if frReplace in ReplaceDialog.Options then
+    o := o + [ssoReplace];
+  if frReplaceAll in ReplaceDialog.Options then
+    o := o + [ssoReplaceAll];
+  if frWholeWord in ReplaceDialog.Options then
+    o := o + [ssoWholeWord];
+  if frMatchCase in ReplaceDialog.Options then
+    o := o + [ssoMatchCase];
+  if frEntireScope in ReplaceDialog.Options then
+    o := o + [ssoEntireScope];
+  if not (frDown in ReplaceDialog.Options) then
+    o := o + [ssoBackwards];
+
+  SynEdit.SearchReplaceEx(ReplaceDialog.FindText, ReplaceDialog.ReplaceText, o, ReplacePos);
+end;
+
 procedure TMainForm.miReplaceClick(Sender: TObject);
 begin
-  // TODO
+  ReplaceDialog.Execute;
+  Replacing := True;
 end;
 
 procedure TMainForm.miFindPrevClick(Sender: TObject);
 var
   o: TSynSearchOptions;
+  c: TFindOptions;
 begin
-  if FindDialog.FindText = '' then Exit;
-
   o := [];
-  if frWholeWord in FindDialog.Options then
+
+  if Replacing then
+    c := ReplaceDialog.Options
+  else
+    c := FindDialog.Options;
+
+  if frWholeWord in c then
     o := o + [ssoWholeWord];
-  if frMatchCase in FindDialog.Options then
+  if frMatchCase in c then
     o := o + [ssoMatchCase];
-  if frEntireScope in FindDialog.Options then
+  if frEntireScope in c then
     o := o + [ssoEntireScope];
-  if frDown in FindDialog.Options then
+  if frDown in c then
     o := o + [ssoBackwards];
 
-  SynEdit.SearchReplace(FindDialog.FindText, '', o);
+  if Replacing then
+    SynEdit.SearchReplaceEx(ReplaceDialog.FindText, '', o, ReplacePos)
+  else
+    SynEdit.SearchReplace(FindDialog.FindText, '', o);
 end;
 
 procedure TMainForm.miFindNextClick(Sender: TObject);
 var
   o: TSynSearchOptions;
+  c: TFindOptions;
 begin
-  if FindDialog.FindText = '' then Exit;
-
-  FindDialog.CloseDialog;
-
   o := [];
-  if frWholeWord in FindDialog.Options then
+
+  if Replacing then
+    c := ReplaceDialog.Options
+  else
+    c := FindDialog.Options;
+
+  if frWholeWord in c then
     o := o + [ssoWholeWord];
-  if frMatchCase in FindDialog.Options then
+  if frMatchCase in c then
     o := o + [ssoMatchCase];
-  if frEntireScope in FindDialog.Options then
+  if frEntireScope in c then
     o := o + [ssoEntireScope];
-  //if frDown in FindDialog.Options then
+  //if frDown in c then
     //o := o - [ssoBackwards];
 
-  SynEdit.SearchReplace(FindDialog.FindText, '', o);
+  if Replacing then
+    SynEdit.SearchReplaceEx(ReplaceDialog.FindText, '', o, ReplacePos)
+  else
+    SynEdit.SearchReplace(FindDialog.FindText, '', o);
 end;
 
 procedure TMainForm.miFindClick(Sender: TObject);
 begin
   FindDialog.Execute;
+  Replacing := False;
 end;
 
 procedure TMainForm.miDeleteClick(Sender: TObject);
