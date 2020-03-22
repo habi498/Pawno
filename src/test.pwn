@@ -35,9 +35,19 @@
 	if
 	return
 	sleep
-	state
 	switch
 	while
+	const
+	enum
+	forward
+	native
+	new
+	operator
+	public
+	static
+	stock
+    true
+    false
 #endif
 
 #pragma tabsize 4
@@ -48,7 +58,7 @@ native SomeNative(const SomeParam[]) = SomeSomeNative;
 
 enum SomeEnum
 {
-	SOME_MEMBER_1 = 0,
+	SOME_MEMBER_1 = 0, // Some comment here
 	SOME_MEMBER_2,
 	SOME_MEMBER_3 = 4,
 	SOME_MEMBER_4

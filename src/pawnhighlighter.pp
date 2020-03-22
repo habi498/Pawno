@@ -54,7 +54,7 @@ unit pawnhighlighter;
 interface
 
 uses
-  SysUtils, LCLIntf, Classes, Registry, Controls, Graphics,
+  SysUtils, LCLIntf, Classes, Controls, Graphics,
   SynEditTypes, SynEditHighlighter;
 
 type
@@ -132,56 +132,26 @@ type
     function Func32: TtkTokenKind;
     function Func34: TtkTokenKind;
     function Func36: TtkTokenKind;
-    function Func40: TtkTokenKind;
     function Func42: TtkTokenKind;
     function Func45: TtkTokenKind;
-    function Func46: TtkTokenKind;
     function Func48: TtkTokenKind;
-    function Func52: TtkTokenKind;
     function Func54: TtkTokenKind;
     function Func57: TtkTokenKind;
-    function Func58: TtkTokenKind;
-    function Func59: TtkTokenKind;
-    function Func60: TtkTokenKind;
     function Func61: TtkTokenKind;
     function Func62: TtkTokenKind;
-    function Func64: TtkTokenKind;
-    function Func65: TtkTokenKind;
-    function Func66: TtkTokenKind;
-    function Func67: TtkTokenKind;
     function Func68: TtkTokenKind;
     function Func69: TtkTokenKind;
-    function Func71: TtkTokenKind;
-    function Func74: TtkTokenKind;
-    function Func75: TtkTokenKind;
+    function Func70: TtkTokenKind;
+    function Func73: TtkTokenKind;
     function Func76: TtkTokenKind;
+    function Func77: TtkTokenKind;
     function Func78: TtkTokenKind;
-    function Func79: TtkTokenKind;
-    function Func81: TtkTokenKind;
-    function Func82: TtkTokenKind;
-    function Func85: TtkTokenKind;
     function Func86: TtkTokenKind;
     function Func88: TtkTokenKind;
-    function Func89: TtkTokenKind;
     function Func92: TtkTokenKind;
-    function Func97: TtkTokenKind;
-    function Func98: TtkTokenKind;
-    function Func100: TtkTokenKind;
-    function Func101: TtkTokenKind;
     function Func102: TtkTokenKind;
-    function Func104: TtkTokenKind;
-    function Func105: TtkTokenKind;
-    function Func106: TtkTokenKind;
-    function Func107: TtkTokenKind;
     function Func109: TtkTokenKind;
-    function Func110: TtkTokenKind;
-    function Func115: TtkTokenKind;
     function Func116: TtkTokenKind;
-    function Func121: TtkTokenKind;
-    function Func123: TtkTokenKind;
-    function Func125: TtkTokenKind;
-    function Func141: TtkTokenKind;
-    function Func206: TtkTokenKind;
     procedure AnsiCProc;
     procedure AndSymbolProc;
     procedure AsciiCharProc;
@@ -226,7 +196,6 @@ type
     function GetIdentChars: TSynIdentChars; override;
     function GetExtTokenID: TxtkTokenKind;
   public
-    class function GetCapabilities: TSynHighlighterCapabilities; override;
     class function GetLanguageName: string; override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -244,8 +213,6 @@ type
     procedure Next; override;
     procedure SetRange(Value: Pointer); override;
     procedure ResetRange; override;
-    function UseUserSettings(settingIndex: integer): boolean; override;
-    procedure EnumUserSettings(settings: TStrings); override;
     property ExtTokenID: TxtkTokenKind read GetExtTokenID;
   published
     property AsmAttri: TSynHighlighterAttributes read fAsmAttri write fAsmAttri;
@@ -284,7 +251,7 @@ begin
   for I := #0 to #255 do
   begin
     Case I of
-      '_', '0'..'9', 'a'..'z', 'A'..'Z': Identifiers[I] := True;
+      '@', '_', '0'..'9', 'a'..'z', 'A'..'Z': Identifiers[I] := True;
     else Identifiers[I] := False;
     end;
     Case I in['a'..'z', 'A'..'Z'] of { Bug fix: mHashTable['_'] was uninitialised. [Kit] }
@@ -313,56 +280,26 @@ begin
   fIdentFuncTable[32] := @Func32;
   fIdentFuncTable[34] := @Func34;
   fIdentFuncTable[36] := @Func36;
-  fIdentFuncTable[40] := @Func40;
   fIdentFuncTable[42] := @Func42;
   fIdentFuncTable[45] := @Func45;
-  fIdentFuncTable[46] := @Func46;
   fIdentFuncTable[48] := @Func48;
-  fIdentFuncTable[52] := @Func52;
   fIdentFuncTable[54] := @Func54;
   fIdentFuncTable[57] := @Func57;
-  fIdentFuncTable[58] := @Func58;
-  fIdentFuncTable[59] := @Func59;
-  fIdentFuncTable[60] := @Func60;
   fIdentFuncTable[61] := @Func61;
   fIdentFuncTable[62] := @Func62;
-  fIdentFuncTable[64] := @Func64;
-  fIdentFuncTable[65] := @Func65;
-  fIdentFuncTable[66] := @Func66;
-  fIdentFuncTable[67] := @Func67;
   fIdentFuncTable[68] := @Func68;
   fIdentFuncTable[69] := @Func69;
-  fIdentFuncTable[71] := @Func71;
-  fIdentFuncTable[74] := @Func74;
-  fIdentFuncTable[75] := @Func75;
+  fIdentFuncTable[70] := @Func70;
+  fIdentFuncTable[73] := @Func73;
+  fIdentFuncTable[77] := @Func77;
   fIdentFuncTable[76] := @Func76;
   fIdentFuncTable[78] := @Func78;
-  fIdentFuncTable[79] := @Func79;
-  fIdentFuncTable[81] := @Func81;
-  fIdentFuncTable[82] := @Func82;
-  fIdentFuncTable[85] := @Func85;
   fIdentFuncTable[86] := @Func86;
   fIdentFuncTable[88] := @Func88;
-  fIdentFuncTable[89] := @Func89;
   fIdentFuncTable[92] := @Func92;
-  fIdentFuncTable[97] := @Func97;
-  fIdentFuncTable[98] := @Func98;
-  fIdentFuncTable[100] := @Func100;
-  fIdentFuncTable[101] := @Func101;
   fIdentFuncTable[102] := @Func102;
-  fIdentFuncTable[104] := @Func104;
-  fIdentFuncTable[105] := @Func105;
-  fIdentFuncTable[106] := @Func106;
-  fIdentFuncTable[107] := @Func107;
   fIdentFuncTable[109] := @Func109;
-  fIdentFuncTable[110] := @Func110;
-  fIdentFuncTable[115] := @Func115;
   fIdentFuncTable[116] := @Func116;
-  fIdentFuncTable[121] := @Func121;
-  fIdentFuncTable[123] := @Func123;
-  fIdentFuncTable[125] := @Func125;
-  fIdentFuncTable[141] := @Func141;
-  fIdentFuncTable[206] := @Func206;
 end;
 
 function TSynPawnSyn.KeyHash(ToHash: PChar): Integer;
@@ -409,10 +346,7 @@ end;
 
 function TSynPawnSyn.Func32: TtkTokenKind;
 begin
-  if KeyComp('cdecl') then Result := tkKey else
-    if KeyComp('case') then Result := tkKey else
-      if KeyComp('_cdecl') then Result := tkKey else
-        if KeyComp('__cdecl') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('case') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func34: TtkTokenKind;
@@ -431,11 +365,6 @@ begin
     Result := tkIdentifier;
 end;
 
-function TSynPawnSyn.Func40: TtkTokenKind;
-begin
-  if KeyComp('catch') then Result := tkKey else Result := tkIdentifier;
-end;
-
 function TSynPawnSyn.Func42: TtkTokenKind;
 begin
   if KeyComp('for') then Result := tkKey else
@@ -448,87 +377,33 @@ begin
     if KeyComp('new') then Result := tkKey else Result := tkIdentifier;
 end;
 
-function TSynPawnSyn.Func46: TtkTokenKind;
-begin
-  if KeyComp('__int8') then Result := tkKey else
-    if KeyComp('__int16') then Result := tkKey else
-      if KeyComp('int') then Result := tkKey else
-        if KeyComp('__int32') then Result := tkKey else
-          if KeyComp('__int64') then Result := tkKey else Result := tkIdentifier;
-end;
-
 function TSynPawnSyn.Func48: TtkTokenKind;
 begin
   if KeyComp('false') then Result := tkKey else
     if KeyComp('bool') then Result := tkKey else Result := tkIdentifier;
 end;
 
-function TSynPawnSyn.Func52: TtkTokenKind;
-begin
-  if KeyComp('long') then Result := tkKey else Result := tkIdentifier;
-end;
-
 function TSynPawnSyn.Func54: TtkTokenKind;
 begin
-  if KeyComp('void') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('defined') then Result := tkKey else
+    if KeyComp('tagof') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func57: TtkTokenKind;
 begin
-  if KeyComp('enum') then Result := tkKey else
-    if KeyComp('delete') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func58: TtkTokenKind;
-begin
-  if KeyComp('_pascal') then Result := tkKey else
-    if KeyComp('__pascal') then Result := tkKey else
-      if KeyComp('pascal') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func59: TtkTokenKind;
-begin
-  if KeyComp('class') then Result := tkKey else
-    if KeyComp('float') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func60: TtkTokenKind;
-begin
-  if KeyComp('this') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('enum') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func61: TtkTokenKind;
 begin
-  if KeyComp('goto') then Result := tkKey else
-    if KeyComp('auto') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('goto') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func62: TtkTokenKind;
 begin
-  if KeyComp('__thread') then Result := tkKey else
-    if KeyComp('while') then Result := tkKey else
-      if KeyComp('friend') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func64: TtkTokenKind;
-begin
-  if KeyComp('signed') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func65: TtkTokenKind;
-begin
-  if KeyComp('double') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func66: TtkTokenKind;
-begin
-  if KeyComp('__try') then Result := tkKey else
-    if KeyComp('try') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func67: TtkTokenKind;
-begin
-  if KeyComp('__dispid') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('while') then Result := tkKey else
+    if KeyComp('exit') then Result := tkKey else
+      if KeyComp('sleep') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func68: TtkTokenKind;
@@ -538,24 +413,17 @@ end;
 
 function TSynPawnSyn.Func69: TtkTokenKind;
 begin
-  if KeyComp('public') then Result := tkKey else
-    if KeyComp('inline') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('public') then Result := tkKey else Result := tkIdentifier;
 end;
 
-function TSynPawnSyn.Func71: TtkTokenKind;
+function TSynPawnSyn.Func70: TtkTokenKind;
 begin
-  if KeyComp('__rtti') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('state') then Result := tkKey else Result := tkIdentifier;
 end;
 
-function TSynPawnSyn.Func74: TtkTokenKind;
+function TSynPawnSyn.Func73: TtkTokenKind;
 begin
-  if KeyComp('__classid') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func75: TtkTokenKind;
-begin
-  if KeyComp('__declspec') then Result := tkKey else
-    if KeyComp('using') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('stock') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func76: TtkTokenKind;
@@ -564,80 +432,30 @@ begin
     if KeyComp('default') then Result := tkKey else Result := tkIdentifier;
 end;
 
+function TSynPawnSyn.Func77: TtkTokenKind;
+begin
+  if KeyComp('native') then Result := tkKey else Result := tkIdentifier;
+end;
+
 function TSynPawnSyn.Func78: TtkTokenKind;
 begin
-  if KeyComp('_stdcall') then Result := tkKey else
-    if KeyComp('union') then Result := tkKey else
-      if KeyComp('__stdcall') then Result := tkKey else
-        if KeyComp('static') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func79: TtkTokenKind;
-begin
-  if KeyComp('__except') then Result := tkKey else
-    if KeyComp('wchar_t') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func81: TtkTokenKind;
-begin
-  if KeyComp('mutable') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func82: TtkTokenKind;
-begin
-  if KeyComp('_fastcall') then Result := tkKey else
-    if KeyComp('__fastcall') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func85: TtkTokenKind;
-begin
-  if KeyComp('short') then Result := tkKey else
-    if KeyComp('typeid') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('static') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func86: TtkTokenKind;
 begin
-  if KeyComp('sizeof') then Result := tkKey else
-    if KeyComp('__finally') then Result := tkKey else
-      if KeyComp('namespace') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('sizeof') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func88: TtkTokenKind;
 begin
   if KeyComp('switch') then Result := tkKey else
-    if KeyComp('typedef') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func89: TtkTokenKind;
-begin
-  if KeyComp('throw') then Result := tkKey else Result := tkIdentifier;
+    if KeyComp('assert') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func92: TtkTokenKind;
 begin
-  if KeyComp('extern') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func97: TtkTokenKind;
-begin
-  if KeyComp('__import') then Result := tkKey else
-    if KeyComp('_import') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func98: TtkTokenKind;
-begin
-  if KeyComp('private') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func100: TtkTokenKind;
-begin
-  if KeyComp('template') then Result := tkKey else
-    if KeyComp('__closure') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func101: TtkTokenKind;
-begin
-  if KeyComp('unsigned') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('forward') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func102: TtkTokenKind;
@@ -645,77 +463,14 @@ begin
   if KeyComp('return') then Result := tkKey else Result := tkIdentifier;
 end;
 
-function TSynPawnSyn.Func104: TtkTokenKind;
-begin
-  if KeyComp('volatile') then Result := tkKey else
-    if KeyComp('_export') then Result := tkKey else
-      if KeyComp('__export') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func105: TtkTokenKind;
-begin
-  if KeyComp('__published') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func106: TtkTokenKind;
-begin
-  if KeyComp('explicit') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func107: TtkTokenKind;
-begin
-  if KeyComp('typename') then Result := tkKey else
-    if KeyComp('struct') then Result := tkKey else Result := tkIdentifier;
-end;
-
 function TSynPawnSyn.Func109: TtkTokenKind;
 begin
-  if KeyComp('register') then Result := tkKey else
-    if KeyComp('continue') then Result := tkKey else
-      if KeyComp('__automated') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func110: TtkTokenKind;
-begin
-  if KeyComp('virtual') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func115: TtkTokenKind;
-begin
-  if KeyComp('protected') then Result := tkKey else Result := tkIdentifier;
+  if KeyComp('continue') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.Func116: TtkTokenKind;
 begin
   if KeyComp('operator') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func121: TtkTokenKind;
-begin
-  if KeyComp('_vectorcall') then Result := tkKey else
-    if KeyComp('__vectorcall') then Result := tkKey else
-      Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func123: TtkTokenKind;
-begin
-  if KeyComp('dynamic_cast') then Result := tkKey else
-    if KeyComp('const_cast') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func125: TtkTokenKind;
-begin
-  if KeyComp('static_cast') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func141: TtkTokenKind;
-begin
-  if KeyComp('__property') then Result := tkKey else Result := tkIdentifier;
-end;
-
-function TSynPawnSyn.Func206: TtkTokenKind;
-begin
-  if KeyComp('reinterpret_cast') then Result := tkKey else Result := tkIdentifier;
 end;
 
 function TSynPawnSyn.AltFunc: TtkTokenKind;
@@ -810,7 +565,7 @@ begin
   MakeMethodTables;
   fRange := rsUnknown;
   fAsmStart := False;
-  fDefaultFilter := SYNS_FilterCPP;
+  fDefaultFilter := 'Pawn Files (*.p,*.pwn,*.pawn)|*.p;*.pwn;*.pawn';
 end; { Create }
 
 procedure TSynPawnSyn.SetLine(const NewValue: String; LineNumber:Integer);
@@ -1480,7 +1235,7 @@ end;
 
 function TSynPawnSyn.GetRange: Pointer;
 begin
-  Result := Pointer(PtrInt(fRange));
+  Result := Pointer(fRange);
 end;
 
 function TSynPawnSyn.GetToken: String;
@@ -1547,150 +1302,8 @@ end;
 
 procedure TSynPawnSyn.SetRange(Value: Pointer);
 begin
-  fRange := TRangeState(PtrUInt(Value));
+  fRange := TRangeState(Value);
 end;
-
-procedure TSynPawnSyn.EnumUserSettings(settings: TStrings);
-begin
-  { returns the user settings that exist in the registry }
-  with TRegistry.Create do
-  begin
-    try
-      RootKey := HKEY_LOCAL_MACHINE;
-      {$IFNDEF SYN_LAZARUS}
-      if OpenKeyReadOnly('\SOFTWARE\Borland\C++Builder') then
-      begin
-        try
-          GetKeyNames(settings);
-        finally
-          CloseKey;
-        end;
-      end;
-      {$ENDIF}
-    finally
-      Free;
-    end;
-  end;
-end;
-
-function TSynPawnSyn.UseUserSettings(settingIndex: integer): boolean;
-// Possible parameter values:
-//   index into TStrings returned by EnumUserSettings
-// Possible return values:
-//   true : settings were read and used
-//   false: problem reading settings or invalid version specified - old settings
-//          were preserved
-
-  function ReadCPPBSettings(settingIndex: integer): boolean;
-
-    function ReadCPPBSetting(settingTag: string; attri: TSynHighlighterAttributes; key: string): boolean;
-
-      function ReadCPPB1(settingTag: string; attri: TSynHighlighterAttributes; name: string): boolean;
-      var
-        i: integer;
-      begin
-        for i := 1 to Length(name) do
-          if name[i] = ' ' then name[i] := '_';
-        Result := attri.LoadFromBorlandRegistry(HKEY_CURRENT_USER,
-             '\SOFTWARE\Borland\C++Builder\'+settingTag+'\Highlight',name,true);
-      end; { ReadCPPB1 }
-
-      function ReadCPPB3OrMore(settingTag: string; attri: TSynHighlighterAttributes; key: string): boolean;
-      begin
-        Result := attri.LoadFromBorlandRegistry(HKEY_CURRENT_USER,
-                 '\Software\Borland\C++Builder\'+settingTag+'\Editor\Highlight',
-                 key,false);
-      end; { ReadCPPB3OrMore }
-
-    begin { ReadCPPBSetting }
-      try
-        if (settingTag[1] = '1')
-          then Result := ReadCPPB1(settingTag,attri,key)
-          else Result := ReadCPPB3OrMore(settingTag,attri,key);
-      except Result := false; end;
-    end; { ReadCPPBSetting }
-
-  var
-    tmpStringAttri    : TSynHighlighterAttributes;
-    tmpNumberAttri    : TSynHighlighterAttributes;
-    tmpKeyAttri       : TSynHighlighterAttributes;
-    tmpSymbolAttri    : TSynHighlighterAttributes;
-    tmpAsmAttri       : TSynHighlighterAttributes;
-    tmpCommentAttri   : TSynHighlighterAttributes;
-    tmpIdentifierAttri: TSynHighlighterAttributes;
-    tmpInvalidAttri   : TSynHighlighterAttributes;
-    tmpSpaceAttri     : TSynHighlighterAttributes;
-    tmpDirecAttri     : TSynHighlighterAttributes;
-    s                 : TStringList;
-
-  begin { ReadCPPBSettings }
-    s := TStringList.Create;
-    try
-      EnumUserSettings(s);
-      if settingIndex >= s.Count then Result := false
-      else begin
-        tmpStringAttri    := TSynHighlighterAttributes.Create(nil);
-        tmpNumberAttri    := TSynHighlighterAttributes.Create(nil);
-        tmpKeyAttri       := TSynHighlighterAttributes.Create(nil);
-        tmpSymbolAttri    := TSynHighlighterAttributes.Create(nil);
-        tmpAsmAttri       := TSynHighlighterAttributes.Create(nil);
-        tmpCommentAttri   := TSynHighlighterAttributes.Create(nil);
-        tmpIdentifierAttri:= TSynHighlighterAttributes.Create(nil);
-        tmpInvalidAttri   := TSynHighlighterAttributes.Create(nil);
-        tmpSpaceAttri     := TSynHighlighterAttributes.Create(nil);
-        tmpDirecAttri     := TSynHighlighterAttributes.Create(nil);
-        tmpStringAttri    .Assign(fStringAttri);
-        tmpNumberAttri    .Assign(fNumberAttri);
-        tmpKeyAttri       .Assign(fKeyAttri);
-        tmpSymbolAttri    .Assign(fSymbolAttri);
-        tmpAsmAttri       .Assign(fAsmAttri);
-        tmpCommentAttri   .Assign(fCommentAttri);
-        tmpIdentifierAttri.Assign(fIdentifierAttri);
-        tmpInvalidAttri   .Assign(fInvalidAttri);
-        tmpSpaceAttri     .Assign(fSpaceAttri);
-        tmpDirecAttri     .Assign(fDirecAttri);
-        if s[settingIndex][1] = '1'
-          then Result := ReadCPPBSetting(s[settingIndex],fAsmAttri,'Plain text')
-          else Result := ReadCPPBSetting(s[settingIndex],fAsmAttri,'Assembler');
-        Result := Result                                                         and
-                  ReadCPPBSetting(s[settingIndex],fCommentAttri,'Comment')       and
-                  ReadCPPBSetting(s[settingIndex],fIdentifierAttri,'Identifier') and
-                  ReadCPPBSetting(s[settingIndex],fInvalidAttri,'Illegal Char')  and
-                  ReadCPPBSetting(s[settingIndex],fKeyAttri,'Reserved word')     and
-                  ReadCPPBSetting(s[settingIndex],fNumberAttri,'Integer')        and
-                  ReadCPPBSetting(s[settingIndex],fSpaceAttri,'Whitespace')      and
-                  ReadCPPBSetting(s[settingIndex],fStringAttri,'String')         and
-                  ReadCPPBSetting(s[settingIndex],fSymbolAttri,'Symbol')         and
-                  ReadCPPBSetting(s[settingIndex],fDirecAttri,'Preprocessor');
-        if not Result then begin
-          fStringAttri    .Assign(tmpStringAttri);
-          fNumberAttri    .Assign(tmpNumberAttri);
-          fKeyAttri       .Assign(tmpKeyAttri);
-          fSymbolAttri    .Assign(tmpSymbolAttri);
-          fAsmAttri       .Assign(tmpAsmAttri);
-          fCommentAttri   .Assign(tmpCommentAttri);
-          fIdentifierAttri.Assign(tmpIdentifierAttri);
-          fInvalidAttri.Assign(tmpInvalidAttri);
-          fSpaceAttri     .Assign(tmpSpaceAttri);
-          fDirecAttri     .Assign(tmpDirecAttri);
-        end;
-        tmpStringAttri    .Free;
-        tmpNumberAttri    .Free;
-        tmpKeyAttri       .Free;
-        tmpSymbolAttri    .Free;
-        tmpAsmAttri       .Free;
-        tmpCommentAttri   .Free;
-        tmpIdentifierAttri.Free;
-        tmpInvalidAttri   .Free;
-        tmpSpaceAttri     .Free;
-        tmpDirecAttri     .Free;
-      end;
-    finally s.Free; end;
-  end; { ReadCPPBSettings }
-
-begin
-  Result := ReadCPPBSettings(settingIndex);
-end; { TSynCppSyn.UseUserSettings }
 
 function TSynPawnSyn.GetIdentChars: TSynIdentChars;
 begin
@@ -1699,12 +1312,7 @@ end;
 
 class function TSynPawnSyn.GetLanguageName: string;
 begin
-  Result := SYNS_LangCPP;
-end;
-
-class function TSynPawnSyn.GetCapabilities: TSynHighlighterCapabilities;
-begin
-  Result := inherited GetCapabilities + [hcUserSettings];
+  Result := 'Pawn';
 end;
 
 initialization
