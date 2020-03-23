@@ -7,13 +7,13 @@
 	    
 #tryinclude "SomeInclude"
 
-#define SomeMacro (1)
+#define SomeMacro (-1)
 #if defined SomeMacro
 	#if 0 < SomeMacro
-	    #assert SomeMacro is bigger than 0!
+	    #assert "SomeMacro is bigger than 0!"
 	#endif
 #else
-	#assert No SomeMacro defined!
+	#assert "No SomeMacro defined!"
 #endif
 
 #if defined PlzDontCallMe
@@ -55,6 +55,7 @@
 
 native SomeSomeNative(const SomeParam[]);
 native SomeNative(const SomeParam[]) = SomeSomeNative;
+native AnotherNative(const SomeParam);
 
 enum SomeEnum
 {
@@ -90,11 +91,13 @@ SomeJump:
 	
 	SomeArrayStockVar[0] = SomePublicVar / 2;
 	
-	switch(SomeArrayStockVar)
+	switch(SomeArrayStockVar[0])
 	{
-	case 1 .. 100: { SomeFloatStaticVar = 654.321 }
+	case 1 .. 100: { SomeFloatStaticVar = Float:654.321; }
 	default: {}
 	}
+	
+	AnotherNative(_:SomeFloatStaticVar);
 	
 	if(!SomeBoolNewVar)
 	{
