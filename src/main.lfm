@@ -898,6 +898,8 @@ object MainForm: TMainForm
     top = 104
   end
   object OpenDialog: TOpenDialog
+    Title = 'Open'
+    Filter = 'Pawn Script (*.p; *.pwn; *.pawn)|*.p; *.pwn; *.pawn|All Files (*.*)|*.*'
     left = 329
     top = 104
   end
