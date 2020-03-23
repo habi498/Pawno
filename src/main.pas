@@ -78,6 +78,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure lbFunctionDblClick(Sender: TObject);
     procedure miAboutClick(Sender: TObject);
     procedure miAssocFilesClick(Sender: TObject);
     procedure miCloseClick(Sender: TObject);
@@ -178,6 +179,8 @@ begin
   popSelectAll.Enabled := Enable;
 
   SynEdit.Enabled := Enable;
+
+  lbFunction.Enabled := Enable;
 end;
 
 procedure TMainForm.miAboutClick(Sender: TObject);
@@ -610,6 +613,16 @@ begin
   end;
 end;
 
+procedure TMainForm.lbFunctionDblClick(Sender: TObject);
+begin
+  if (lbFunction.Items[lbFunction.ItemIndex] <> '') and
+  (Pos('//', lbFunction.Items[lbFunction.ItemIndex]) = 0) then
+  begin
+    SynEdit.InsertTextAtCaret(lbFunction.Items[lbFunction.ItemIndex] +'()');
+    SynEdit.CaretX := SynEdit.CaretX - 1;
+  end;
+end;
+
 procedure TMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   r: TModalResult;
@@ -625,9 +638,53 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
+var
+  sl: TStringList;
+  tf: TextFile;
+  i,t: Integer;
+  l: String;
 begin
   FileName := '';
   SetTitle('Pawno');
+
+  sl := TStringList.Create;
+  try
+    FindAllFiles(sl, 'include/', '*.inc', False);
+    for i := 0 to pred(sl.Count) do
+    begin
+      AssignFile(tf, sl[i]);
+      Reset(tf);
+
+      lbFunction.AddItem('// '+ ExtractFileName(sl[i]), nil);
+      lbFunction.AddItem('', nil);
+
+      while not EOF(tf) do
+      begin
+        ReadLn(tf, l);
+        l := TrimLeft(l);
+        if CompareStr('native', Copy(l, 1, 6)) = 0 then
+        begin
+          if Pos('operator', l) <> 0 then continue; // Ignore operators
+          Delete(l, 1, 6); // Delete 'native' from start
+          //l := TrimLeft(l); // Removes spaces/tabs from the beginning
+          l := Copy(l, 1, Pos('(', l) - 1); // Copy function name until hits '('
+          t := Pos(':', l); // For checking tags like 'Float:','DB:', etc...
+          if t <> 0  then
+            lbFunction.AddItem(Trim(Copy(l, t + 1)), nil)
+          else
+            lbFunction.AddItem(Trim(Copy(l, 1)), nil);
+        end;
+      end;
+
+      lbFunction.AddItem('', nil);
+      CloseFile(tf);
+    end;
+    sl.Free;
+  except
+    StatusBar.Panels[0].Text := 'Failed to read includes. Try run Pawno in administrator mode.';
+    lbFunction.Visible := False;
+    miShowFuncList.Checked := False;
+  end;
 end;
 
 end.

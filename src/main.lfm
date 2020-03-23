@@ -641,7 +641,14 @@ object MainForm: TMainForm
     Top = 0
     Width = 100
     Align = alRight
+    Enabled = False
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Style = [fsBold]
     ItemHeight = 0
+    OnDblClick = lbFunctionDblClick
+    ParentFont = False
     TabOrder = 0
   end
   object RightSplitter: TSplitter
