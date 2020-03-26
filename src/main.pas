@@ -317,7 +317,7 @@ begin
 
   try
     p := TProcess.Create(nil);
-    p.Executable := 'pawncc';
+    p.Executable := '"'+ ExtractFilePath(ParamStr(0)) +'\pawncc.exe"';
     p.Parameters.Add('"'+ FileName +'"');
     p.Parameters.Add('-;+ -(+');
     p.Options := p.Options + [poWaitOnExit, poUsePipes, poNoConsole];
