@@ -19,6 +19,7 @@ type
     lbFunction: TListBox;
     lbCompiler: TListBox;
     MainMenu: TMainMenu;
+    miShowCompOutput: TMenuItem;
     mFile: TMenuItem;
     miNew: TMenuItem;
     miOpen: TMenuItem;
@@ -79,6 +80,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbFunctionDblClick(Sender: TObject);
+    procedure miShowCompOutputClick(Sender: TObject);
     procedure miAboutClick(Sender: TObject);
     procedure miAssocFilesClick(Sender: TObject);
     procedure miCloseClick(Sender: TObject);
@@ -241,20 +243,18 @@ begin
   SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
 end;
 
+procedure TMainForm.miShowCompOutputClick(Sender: TObject);
+begin
+  miShowCompOutput.Checked := not miShowCompOutput.Checked;
+  lbCompiler.Visible := miShowCompOutput.Checked;
+  BottomSplitter.Visible := miShowCompOutput.Checked;
+end;
+
 procedure TMainForm.miShowFuncListClick(Sender: TObject);
 begin
-  if miShowFuncList.Checked then
-  begin
-    miShowFuncList.Checked := False;
-    lbFunction.Visible := False;
-    RightSplitter.Visible := False;
-  end
-  else
-  begin
-    miShowFuncList.Checked := True;
-    lbFunction.Visible := True;
-    RightSplitter.Visible := False;
-  end;
+  miShowFuncList.Checked := not miShowFuncList.Checked;
+  lbFunction.Visible := miShowFuncList.Checked;
+  RightSplitter.Visible := miShowFuncList.Checked;
 end;
 
 procedure TMainForm.miFontClick(Sender: TObject);

@@ -628,7 +628,7 @@ object MainForm: TMainForm
     Width = 751
     Panels = <    
       item
-        Width = 50
+        Width = 600
       end    
       item
         Width = 50
@@ -831,6 +831,10 @@ object MainForm: TMainForm
         Caption = 'Show Function List'
         Checked = True
         OnClick = miShowFuncListClick
+      end
+      object miShowCompOutput: TMenuItem
+        Caption = 'Show Compiler Output'
+        OnClick = miShowCompOutputClick
       end
       object miAssocFiles: TMenuItem
         Caption = 'Associate with PAWN files'
