@@ -16,6 +16,7 @@ type
   TMainForm = class(TForm)
     FindDialog: TFindDialog;
     FontDialog: TFontDialog;
+    ilToolbar: TImageList;
     lbFunction: TListBox;
     lbCompiler: TListBox;
     MainMenu: TMainMenu;
@@ -76,6 +77,20 @@ type
     StatusBar: TStatusBar;
     SynEdit: TSynEdit;
     PawnHighlighter: TSynPawnSyn;
+    ToolBar1: TToolBar;
+    tbNew: TToolButton;
+    tbCompile: TToolButton;
+    tbCompileRun: TToolButton;
+    tbSpace2: TToolButton;
+    tbHelpTopics: TToolButton;
+    tbOpen: TToolButton;
+    tbSave: TToolButton;
+    tbSpace1: TToolButton;
+    tbFind: TToolButton;
+    tbFindNext: TToolButton;
+    tbFindPrev: TToolButton;
+    tbReplace: TToolButton;
+    ToolButton5: TToolButton;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -183,6 +198,15 @@ begin
   SynEdit.Enabled := Enable;
 
   lbFunction.Enabled := Enable;
+
+  // ToolBar
+  tbSave.Enabled := Enable;
+  tbFind.Enabled := Enable;
+  tbFindNext.Enabled := Enable;
+  tbFindPrev.Enabled := Enable;
+  tbReplace.Enabled := Enable;
+  tbCompile.Enabled := Enable;
+  tbCompileRun.Enabled := Enable;
 end;
 
 procedure TMainForm.miAboutClick(Sender: TObject);
