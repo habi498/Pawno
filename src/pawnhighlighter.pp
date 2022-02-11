@@ -1235,7 +1235,7 @@ end;
 
 function TSynPawnSyn.GetRange: Pointer;
 begin
-  Result := Pointer(fRange);
+  Result := Pointer(PtrInt(fRange));
 end;
 
 function TSynPawnSyn.GetToken: String;
@@ -1302,7 +1302,7 @@ end;
 
 procedure TSynPawnSyn.SetRange(Value: Pointer);
 begin
-  fRange := TRangeState(Value);
+  fRange := TRangeState(PtrUInt(Value));
 end;
 
 function TSynPawnSyn.GetIdentChars: TSynIdentChars;
