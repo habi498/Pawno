@@ -133,7 +133,6 @@ object MainForm: TMainForm
     ParentFont = False
     PopupMenu = EditPopupMenu
     TabOrder = 2
-    OnClick = miNewClick
     Gutter.Width = 57
     Gutter.MouseActions = <>
     RightGutter.Width = 0
