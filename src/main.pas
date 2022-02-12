@@ -331,6 +331,7 @@ var
   p: TProcess;
   sl: TStringList;
   i: Integer;
+  SavedPath: string;
 begin
   miSaveClick(Self);
 
@@ -338,6 +339,9 @@ begin
   BottomSplitter.Visible := True;
 
   lbCompiler.Clear;
+
+  SavedPath := GetCurrentDir;
+  SetCurrentDir(ExtractFilePath(FileName));
 
   try
     p := TProcess.Create(nil);
@@ -362,6 +366,9 @@ begin
   except
     MessageDlg('Unable to execute compiler...', mtError, [mbOk], 0);
   end;
+
+  SetCurrentDir(SavedPath);
+
 end;
 
 procedure TMainForm.miSelectAllClick(Sender: TObject);
