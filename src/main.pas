@@ -335,6 +335,7 @@ begin
 
   lbCompiler.Visible := True;
   BottomSplitter.Visible := True;
+  miShowCompOutput.Checked := True;
 
   lbCompiler.Clear;
 
