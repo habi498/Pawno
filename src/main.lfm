@@ -666,6 +666,8 @@ object MainForm: TMainForm
     Width = 751
     Align = alBottom
     ItemHeight = 0
+    OnMouseDown = OutputMouseDown
+    PopupMenu = pmOutput
     TabOrder = 4
     Visible = False
   end
@@ -1078,5 +1080,24 @@ object MainForm: TMainForm
       0E25F9A3BB900F69EF34FD9FB29247BBB1FFA129C22589BFCC07E9194C88FFA0
       CB2BC7A5F75E7A7E45EA38212714FC2F05210F7A
     }
+  end
+  object pmOutput: TPopupMenu
+    Left = 400
+    Top = 176
+    object MenuItem1: TMenuItem
+      Caption = 'Copy'
+      OnClick = miOutputCopy
+    end
+    object miOutputCopyAll: TMenuItem
+      Caption = 'Copy All'
+      OnClick = miOutputCopyAll
+    end
+    object Separator1: TMenuItem
+      Caption = '-'
+    end
+    object miOutputClear: TMenuItem
+      Caption = 'Clear'
+      OnClick = miOutputClear
+    end
   end
 end

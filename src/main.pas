@@ -5,7 +5,7 @@ unit main;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls, Clipbrd,
   ExtCtrls, ComCtrls, SynEdit, lclintf, Registry, ShlObj, Process, pawnhighlighter,
   FileUtil, runoptions, LazFileUtils, SynEditTypes;
 
@@ -20,12 +20,17 @@ type
     lbFunction: TListBox;
     lbCompiler: TListBox;
     MainMenu: TMainMenu;
+    MenuItem1: TMenuItem;
+    miOutputCopyAll: TMenuItem;
+    miOutputClear: TMenuItem;
+    Separator1: TMenuItem;
     miShowCompOutput: TMenuItem;
     mFile: TMenuItem;
     miNew: TMenuItem;
     miOpen: TMenuItem;
     miClose: TMenuItem;
     OpenDialog: TOpenDialog;
+    pmOutput: TPopupMenu;
     ReplaceDialog: TReplaceDialog;
     SaveDialog: TSaveDialog;
     SEP1: TMenuItem; // seperator
@@ -95,6 +100,9 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbFunctionDblClick(Sender: TObject);
+    procedure miOutputCopy(Sender: TObject);
+    procedure miOutputClear(Sender: TObject);
+    procedure miOutputCopyAll(Sender: TObject);
     procedure miShowCompOutputClick(Sender: TObject);
     procedure miAboutClick(Sender: TObject);
     procedure miAssocFilesClick(Sender: TObject);
@@ -122,6 +130,8 @@ type
     procedure miSelectAllClick(Sender: TObject);
     procedure miShowFuncListClick(Sender: TObject);
     procedure miUndoClick(Sender: TObject);
+    procedure OutputMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure ReplaceDialogReplace(Sender: TObject);
     procedure SynEditChange(Sender: TObject);
     procedure SynEditStatusChange(Sender: TObject; {%H-}Changes: TSynStatusChanges);
@@ -651,6 +661,54 @@ begin
     SynEdit.InsertTextAtCaret(lbFunction.Items[lbFunction.ItemIndex] +'()');
     SynEdit.CaretX := SynEdit.CaretX - 1;
   end;
+end;
+
+procedure TMainForm.OutputMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  i: LongInt;
+  CursorPoint: TPoint;
+begin
+  CursorPoint.X := X;
+  CursorPoint.Y := Y;
+
+  //lbCompiler.ClearSelection;
+
+  for i := 0 to pred(lbCompiler.Items.Count) do
+    if PtInRect(lbCompiler.ItemRect(i), CursorPoint) then
+      lbCompiler.Selected[i] := True
+    else
+      lbCompiler.Selected[i] := False;
+end;
+
+procedure TMainForm.miOutputCopy(Sender: TObject);
+var
+  i: LongInt;
+  Str: String;
+begin
+  Str := '';
+  for i := 0 to pred(lbCompiler.Items.Count) do
+    if lbCompiler.Selected[i] then
+       Str := Str + lbCompiler.Items[i] + #13#10;
+  Clipboard.AsText := Str;
+
+  //Clipboard.AsText := lbCompiler.GetSelectedText;
+end;
+
+procedure TMainForm.miOutputCopyAll(Sender: TObject);
+var
+  Str: String;
+  i: LongInt;
+begin;
+  Str := '';
+  for i := 0 to pred(lbCompiler.Items.Count) do
+      Str:= Str + lbCompiler.Items[i] + #13#10;
+  Clipboard.AsText := Str;
+end;
+
+procedure TMainForm.miOutputClear(Sender: TObject);
+begin
+  lbCompiler.Clear;
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
