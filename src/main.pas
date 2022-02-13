@@ -259,7 +259,7 @@ begin
         miAssocFiles.Checked := False;
       end;
     except
-      // Do nothing?
+      StatusBar.Panels[0].Text := 'Failed file association. Try run Pawno in administrator mode.';
     end;
   finally
     r.Free;
