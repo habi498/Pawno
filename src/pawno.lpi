@@ -18,6 +18,9 @@
         <TextDesc Value="Simple and lightweight PAWN script editor"/>
       </XPManifest>
       <Icon Value="0"/>
+      <Resources Count="1">
+        <Resource_0 FileName="SMA.ico" Type="ICON" ResourceName="SMA"/>
+      </Resources>
     </General>
     <BuildModes Count="3">
       <Item1 Name="Default" Default="True"/>

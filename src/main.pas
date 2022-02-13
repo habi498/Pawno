@@ -224,10 +224,8 @@ end;
 
 procedure TMainForm.miAssocFilesClick(Sender: TObject);
 var
-  p: String;
   r: TRegistry;
 begin
-  p := ExtractFilePath(Application.ExeName);
   r := TRegistry.Create;
   try
     try
@@ -244,10 +242,10 @@ begin
         r.CloseKey;
         r.CreateKey('PAWN.Script');
         r.OpenKey('PAWN.Script\DefaultIcon', True);
-        r.WriteString('', p +'pawno.exe,0');
+        r.WriteString('', Application.ExeName + ',1');
         r.CloseKey;
         r.OpenKey('PAWN.Script\shell\open\command', True);
-        r.WriteString('', p +'pawno.exe "%1"');
+        r.WriteString('', Application.ExeName + ' "%1"');
         r.CloseKey;
         miAssocFiles.Checked := True;
       end else begin
