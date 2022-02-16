@@ -100,9 +100,9 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbFunctionDblClick(Sender: TObject);
-    procedure miOutputCopy(Sender: TObject);
-    procedure miOutputClear(Sender: TObject);
-    procedure miOutputCopyAll(Sender: TObject);
+    procedure miOutputCopyClick(Sender: TObject);
+    procedure miOutputClearClick(Sender: TObject);
+    procedure miOutputCopyAllClick(Sender: TObject);
     procedure miShowCompOutputClick(Sender: TObject);
     procedure miAboutClick(Sender: TObject);
     procedure miAssocFilesClick(Sender: TObject);
@@ -681,7 +681,7 @@ begin
       lbCompiler.Selected[i] := False;
 end;
 
-procedure TMainForm.miOutputCopy(Sender: TObject);
+procedure TMainForm.miOutputCopyClick(Sender: TObject);
 var
   i: LongInt;
   Str: String;
@@ -695,7 +695,7 @@ begin
   //Clipboard.AsText := lbCompiler.GetSelectedText;
 end;
 
-procedure TMainForm.miOutputCopyAll(Sender: TObject);
+procedure TMainForm.miOutputCopyAllClick(Sender: TObject);
 var
   Str: String;
   i: LongInt;
@@ -706,7 +706,7 @@ begin;
   Clipboard.AsText := Str;
 end;
 
-procedure TMainForm.miOutputClear(Sender: TObject);
+procedure TMainForm.miOutputClearClick(Sender: TObject);
 begin
   lbCompiler.Clear;
 end;
