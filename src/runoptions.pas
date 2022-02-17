@@ -5,7 +5,7 @@ unit runoptions;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, IniFiles;
 
 type
 
@@ -26,11 +26,12 @@ type
   private
 
   public
-    CopyToStr, ExecuteThisStr, ParametersStr: String;
+
   end;
 
 var
   RunOptionsForm: TRunOptionsForm;
+  CopyToStr, ExecuteThisStr, ParametersStr: String;
 
 implementation
 
@@ -39,10 +40,19 @@ implementation
 { TRunOptionsForm }
 
 procedure TRunOptionsForm.SaveClick(Sender: TObject);
+var
+  Settings: TIniFile;
 begin
   CopyToStr := CopyTo.Text;
   ExecuteThisStr := ExecuteFile.Text;
   ParametersStr := Parameters.Text;
+
+  Settings := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'settings.ini');
+  Settings.WriteString('RunOpts', 'CopyDir', CopyTo.Text);
+  Settings.WriteString('RunOpts', 'ExeFile', ExecuteFile.Text);
+  Settings.WriteString('RunOpts', 'Params', Parameters.Text);
+  Settings.Free;
+
   Close;
 end;
 

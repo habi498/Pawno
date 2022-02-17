@@ -7,7 +7,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls, Clipbrd,
   ExtCtrls, ComCtrls, SynEdit, lclintf, Registry, ShlObj, Process, pawnhighlighter,
-  FileUtil, runoptions, LazFileUtils, SynEditTypes;
+  FileUtil, runoptions, LazFileUtils, SynEditTypes, IniFiles;
+
+function IsUserAnAdmin(): Integer; external 'shell32.dll';
 
 type
 
@@ -106,6 +108,7 @@ type
     procedure miShowCompOutputClick(Sender: TObject);
     procedure miAboutClick(Sender: TObject);
     procedure miAssocFilesClick(Sender: TObject);
+    procedure MakeAssoc(Assoc: Boolean);
     procedure miCloseClick(Sender: TObject);
     procedure miCompileClick(Sender: TObject);
     procedure miCompileRunClick(Sender: TObject);
@@ -233,46 +236,59 @@ begin
 end;
 
 procedure TMainForm.miAssocFilesClick(Sender: TObject);
-var
-  r: TRegistry;
 begin
-  r := TRegistry.Create;
+  miAssocFiles.Checked := not miAssocFiles.Checked;
+  MakeAssoc(miAssocFiles.Checked);
+end;
+
+procedure TMainForm.MakeAssoc(Assoc: Boolean);
+var
+  Registry: TRegistry;
+  Settings: TIniFile;
+begin
+  if IsUserAnAdmin() = 0 then begin
+    StatusBar.Panels[0].Text := 'Failed file association. Try run Pawno in administrator mode.';
+    miAssocFiles.Checked := False;
+    Exit;
+  end;
+
+  Settings := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'settings.ini');
+  Settings.WriteBool('General', 'FileAssoc', Assoc);
+  Settings.Free;
+
+  Registry := TRegistry.Create;
   try
-    try
-      if not miAssocFiles.Checked then begin
-        r.RootKey := HKEY_CLASSES_ROOT;
-        r.OpenKey('.p', True);
-        r.WriteString('', 'PAWN.Script');
-        r.CloseKey;
-        r.OpenKey('.pwn', True);
-        r.WriteString('', 'PAWN.Script');
-        r.CloseKey;
-        r.OpenKey('.pawn', True);
-        r.WriteString('', 'PAWN.Script');
-        r.CloseKey;
-        r.CreateKey('PAWN.Script');
-        r.OpenKey('PAWN.Script\DefaultIcon', True);
-        r.WriteString('', Application.ExeName + ',1');
-        r.CloseKey;
-        r.OpenKey('PAWN.Script\shell\open\command', True);
-        r.WriteString('', Application.ExeName + ' "%1"');
-        r.CloseKey;
-        miAssocFiles.Checked := True;
-      end else begin
-        r.RootKey := HKEY_CLASSES_ROOT;
-        r.DeleteKey('.p');
-        r.DeleteKey('.pwn');
-        r.DeleteKey('.pawn');
-        r.DeleteKey('PAWN.Script');
-        miAssocFiles.Checked := False;
-      end;
-    except
-      StatusBar.Panels[0].Text := 'Failed file association. Try run Pawno in administrator mode.';
+    if Assoc then begin
+      Registry.RootKey := HKEY_CLASSES_ROOT;
+      Registry.OpenKey('.p', True);
+      Registry.WriteString('', 'PAWN.Script');
+      Registry.CloseKey;
+      Registry.OpenKey('.pwn', True);
+      Registry.WriteString('', 'PAWN.Script');
+      Registry.CloseKey;
+      Registry.OpenKey('.pawn', True);
+      Registry.WriteString('', 'PAWN.Script');
+      Registry.CloseKey;
+      Registry.CreateKey('PAWN.Script');
+      Registry.OpenKey('PAWN.Script\DefaultIcon', True);
+      Registry.WriteString('', Application.ExeName + ',1');
+      Registry.CloseKey;
+      Registry.OpenKey('PAWN.Script\shell\open\command', True);
+      Registry.WriteString('', Application.ExeName + ' "%1"');
+      Registry.CloseKey;
+    end else begin
+      Registry.RootKey := HKEY_CLASSES_ROOT;
+      Registry.DeleteKey('.p');
+      Registry.DeleteKey('.pwn');
+      Registry.DeleteKey('.pawn');
+      Registry.DeleteKey('PAWN.Script');
     end;
   finally
-    r.Free;
+    Registry.Free;
   end;
+
   SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
+  miAssocFiles.Checked := Assoc;
 end;
 
 procedure TMainForm.miShowCompOutputClick(Sender: TObject);
@@ -283,23 +299,42 @@ begin
 end;
 
 procedure TMainForm.miShowFuncListClick(Sender: TObject);
+var
+  Settings: TIniFile;
 begin
   miShowFuncList.Checked := not miShowFuncList.Checked;
   lbFunction.Visible := miShowFuncList.Checked;
   RightSplitter.Visible := miShowFuncList.Checked;
+
+  Settings := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'settings.ini');
+  Settings.WriteBool('Display', 'ShowFuncList', miShowFuncList.Checked);
+  Settings.Free;
 end;
 
 procedure TMainForm.miFontClick(Sender: TObject);
+var
+  SettingsIni: TIniFile;
 begin
   if FontDialog.Execute then
   begin
     SynEdit.Font := FontDialog.Font;
   end;
+
+  SettingsIni := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'settings.ini');
+  SettingsIni.WriteString('Display', 'Font_Name', SynEdit.Font.Name);
+  SettingsIni.WriteInteger('Display', 'Font_Size', SynEdit.Font.Size);
+  SettingsIni.Free;
 end;
 
 procedure TMainForm.miRunOptionsClick(Sender: TObject);
+var
+  Form: TRunOptionsForm;
 begin
-  RunOptionsForm.ShowModal;
+  //RunOptionsForm.ShowModal;
+
+  Form := TRunOptionsForm.Create(Application);
+  Form.ShowModal;
+  Form.Free;
 end;
 
 procedure TMainForm.miCompileRunClick(Sender: TObject);
@@ -312,20 +347,20 @@ begin
   s := ExtractFileNameWithoutExt(FileName);
   if not FileExists(s + '.amx') then Exit;
 
-  if RunOptionsForm.CopyToStr <> '' then
+  if CopyToStr <> '' then
   begin
     d := ExtractFileNameWithoutExt(ExtractFileName(FileName));
-    CopyFile(s +'.amx', RunOptionsForm.CopyToStr +'\'+ d +'.amx');
+    CopyFile(s +'.amx', CopyToStr +'\'+ d +'.amx');
   end;
 
-  if RunOptionsForm.ExecuteThisStr <> '' then
+  if ExecuteThisStr <> '' then
   begin
     p := TProcess.Create(nil);
     try
-      p.Executable := RunOptionsForm.ExecuteThisStr;
+      p.Executable := ExecuteThisStr;
 
-      if RunOptionsForm.ParametersStr <> '' then
-        p.Parameters.Add(RunOptionsForm.ParametersStr);
+      if ParametersStr <> '' then
+        p.Parameters.Add(ParametersStr);
 
       p.Execute;
     finally
@@ -714,7 +749,22 @@ end;
 procedure TMainForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 var
   r: TModalResult;
+  Settings: TIniFile;
 begin
+  Settings := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'settings.ini');
+
+  Settings.WriteBool('Display', 'WindowMax', wsMaximized = MainForm.WindowState);
+  MainForm.WindowState := wsNormal;
+  Application.ProcessMessages;
+
+  Settings.WriteInteger('Display', 'WindowX', MainForm.Left);
+  Settings.WriteInteger('Display', 'WindowY', MainForm.Top);
+  Settings.WriteInteger('Display', 'WindowW', MainForm.ClientWidth);
+  Settings.WriteInteger('Display', 'WindowH', MainForm.ClientHeight);
+  Settings.WriteInteger('Display', 'Splitter', lbFunction.Width);
+
+  Settings.Free;
+
   if SynEdit.Modified then begin
     r := MessageDlg('File was modified. Save changes?', mtConfirmation,
       [mbYes, mbNo, mbCancel], 0);
@@ -727,11 +777,43 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 var
+  Settings: TIniFile;
   sl: TStringList;
   tf: TextFile;
   i,t: Integer;
   l: String;
 begin
+  SynEdit.Font.Style := [];
+
+  Settings := TIniFile.Create(ExtractFilePath(ParamStr(0)) + 'settings.ini');
+
+  CopyToStr := Settings.ReadString('RunOpts', 'CopyDir', '');
+  ExecuteThisStr := Settings.ReadString('RunOpts', 'ExeFile', '');
+  ParametersStr := Settings.ReadString('RunOpts', 'Params', '');
+
+  SynEdit.Font.Name := Settings.ReadString('Display', 'Font_Name', 'Courier New');
+  SynEdit.Font.Size := Settings.ReadInteger('Display', 'Font_Size', 10);
+  lbFunction.Font.Name := SynEdit.Font.Name;
+  lbFunction.Font.Size := SynEdit.Font.Size;
+
+  miAssocFiles.Checked := Settings.ReadBool('General', 'FileAssoc', True);
+  miShowFuncList.Checked := Settings.ReadBool('General', 'ShowFuncList', True);
+  RightSplitter.Visible := miShowFuncList.Checked;
+  lbFunction.Visible:= miShowFuncList.Checked;
+
+  MainForm.Left := Settings.ReadInteger('Display', 'WindowX', MainForm.Left);
+  MainForm.Top := Settings.ReadInteger('Display', 'WindowY', MainForm.Top);
+  MainForm.ClientWidth := Settings.ReadInteger('Display', 'WindowW', MainForm.ClientWidth);
+  MainForm.ClientHeight := Settings.ReadInteger('Display', 'WindowH', MainForm.ClientHeight);
+  lbFunction.Width := Settings.ReadInteger('Display', 'Splitter', lbFunction.Width);
+
+  if Settings.ReadBool('Display', 'WindowMax', False) then
+     MainForm.WindowState := wsMaximized;
+
+  Settings.Free;
+
+  MakeAssoc(miAssocFiles.Checked);
+
   FileName := '';
   SetTitle('Pawno');
 
@@ -768,10 +850,12 @@ begin
       CloseFile(tf);
     end;
     sl.Free;
+
+    StatusBar.Panels[0].Text := 'Pawno is ready.';
   except
     StatusBar.Panels[0].Text := 'Failed to read includes. Try run Pawno in administrator mode.';
-    lbFunction.Visible := False;
-    miShowFuncList.Checked := False;
+    //lbFunction.Visible := False;
+    //miShowFuncList.Checked := False;
   end;
 end;
 

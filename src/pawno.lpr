@@ -18,7 +18,7 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TRunOptionsForm, RunOptionsForm);
+  //Application.CreateForm(TRunOptionsForm, RunOptionsForm);
   Application.Run;
 end.
 
