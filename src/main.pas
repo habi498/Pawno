@@ -224,9 +224,9 @@ end;
 
 procedure TMainForm.miAboutClick(Sender: TObject);
 begin
-  MessageDlg('About Pawno', 'Pawno - The PAWN Compiler GUI'#10'Version 1.1'#10#10 +
+  MessageDlg('About Pawno', 'Pawno - The PAWN Compiler GUI'#10'Version 1.2'#10#10 +
   'This program uses the amazing SynEdit!'#10'https://synedit.sourceforge.net/'#10#10 +
-  'Coded by:'#10'RD42 - github.com/dashr9230'#10'spookie - sa-mp.com', mtInformation, [mbOK], 0);
+  'Coded by:'#10'RD42 - github.com/dashr9230', mtInformation, [mbOK], 0);
 end;
 
 procedure TMainForm.miLangGuideClick(Sender: TObject);
