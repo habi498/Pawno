@@ -313,9 +313,10 @@ end;
 
 procedure TMainForm.miFontClick(Sender: TObject);
 var
-  SettingsIni: TIniFile;
-  FontDialog.Font := SynEdit.Font; 
+  SettingsIni: TIniFile; 
 begin
+  FontDialog.Font := SynEdit.Font;
+
   if FontDialog.Execute then
   begin
     SynEdit.Font := FontDialog.Font;
